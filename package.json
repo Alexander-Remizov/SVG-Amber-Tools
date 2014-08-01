@@ -1,0 +1,40 @@
+{
+  "name": "svgambertools",
+  "title": "SVG-Amber-Tools",
+  "description": "The Application or The Library doing The Thing.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/al/SVG-Amber-Tools",
+  "author": {
+    "name": "AlexanderRemizov",
+    "email": "genosse@live.ru"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/al/SVG-Amber-Tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/al/SVG-Amber-Tools/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/al/SVG-Amber-Tools/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-execute": "~0.2.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "amber-dev": "~0.1.5"
+  },
+  "keywords": [
+    "Amber",
+    "Smalltalk"
+  ]
+}
