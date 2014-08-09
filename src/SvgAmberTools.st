@@ -3,22 +3,25 @@ Widget subclass: #SVGWidget
 	instanceVariableNames: 'setAttribute'
 	package: 'SvgAmberTools'!
 
-!SVGWidget methodsFor: 'as yet unclassified'!
+!SVGWidget methodsFor: 'rendering'!
 
 renderOn: html
-
+|svg circle process|
 html h1: 'например'.
+html br style: ''.
 
-html svg id:'svg'; version:''; xmlns:''; xmlnsEv:''; xmlnsXlink:''; height: '200'; width: '300'; with: [
-	html rect height: '100'; width: '150'; style:'fill:#1a1a1a;fill-rule:evenodd;stroke:#ff0000;stroke-width:5;'
-].
-self setAttribute.
-"html button class: 'btn btn-default'; at: 'type' put: 'button';	
-	onClick: [self setAttribute.];  with: '!!!!!!'"
-!
-
-setAttribute
-<var testTest=document.getElementsByTagName('svg')[0].setAttribute('baseProfile', 'full')>
+svg := html svg
+	height: 500;
+	width: 500;
+	with: [ 
+		circle := html circle
+			fill: 'yellow';
+			strokeWidth: 4;
+			stroke: 'green';
+			r: 40;
+			cy: 250;
+			cx: 250].
+	[circle r: 250 atRandom] valueWithInterval: 1000.
 ! !
 
 Object subclass: #SvgAmberTools
@@ -35,10 +38,90 @@ onOpen
 	widget renderOn: (HTMLCanvas onJQuery: 'body' asJQuery)
 ! !
 
+TagBrush subclass: #SvgTagBrush
+	instanceVariableNames: ''
+	package: 'SvgAmberTools'!
+
+!SvgTagBrush methodsFor: 'attributes'!
+
+at: aString put: aValue
+	<self['@element'].setAttributeNS(null, aString, aValue); return aValue>
+!
+
+cx
+	^ (self at: 'cx') asNumber
+!
+
+cx: aValue
+	self at: 'cx' put: aValue asString.
+!
+
+cy
+	^ (self at: 'cy') asNumber
+!
+
+cy: aValue
+	self at: 'cy' put: aValue asString.
+!
+
+fill
+	^ (self at: 'fill') asString
+!
+
+fill: aValue
+	self at: 'fill' put: aValue asString.
+!
+
+height
+	^ (self at: 'height') asNumber
+!
+
+height: aValue
+	self at: 'height' put: aValue asString.
+!
+
+r
+	^ (self at: 'r') asString
+!
+
+r: aValue
+	self at: 'r' put: aValue asString.
+!
+
+stroke
+	^ (self at: 'stroke') asString
+!
+
+stroke: aValue
+	self at: 'stroke' put: aValue asString.
+!
+
+strokeWidth
+	^ (self at: 'stroke-width') asNumber
+!
+
+strokeWidth: aValue
+	self at: 'stroke-width' put: aValue asString.
+!
+
+width
+	^ (self at: 'width') asNumber
+!
+
+width: aValue
+	self at: 'width' put: aValue asString.
+! !
+
+!SvgTagBrush methodsFor: 'private'!
+
+createElementFor: aString
+	<return document.createElementNS('http://www.w3.org/2000/svg', String(aString))>
+! !
+
 !HTMLCanvas methodsFor: '*SvgAmberTools'!
 
 circle
-	^ self tag: 'circle'
+	^ self svgTag: 'circle'
 !
 
 circle: anObject
@@ -46,7 +129,7 @@ circle: anObject
 !
 
 ellipse
-	^ self tag: 'ellipse'
+	^ self svgTag: 'ellipse'
 !
 
 ellipse: anObject
@@ -54,7 +137,7 @@ ellipse: anObject
 !
 
 g
-	^ self tag: 'g'
+	^ self svgTag: 'g'
 !
 
 g: anObject
@@ -62,7 +145,7 @@ g: anObject
 !
 
 image
-	^ self tag: 'image'
+	^ self svgTag: 'image'
 !
 
 image: anObject
@@ -70,15 +153,19 @@ image: anObject
 !
 
 line
-	^ self tag: 'line'
+	^ self svgTag: 'line'
 !
 
 line: anObject
 	^ self line with: anObject
 !
 
+newSvgTag: aString
+	^ SvgTagBrush fromString: aString canvas: self
+!
+
 path
-	^ self tag: 'path'
+	^ self svgTag: 'path'
 !
 
 path: anObject
@@ -86,7 +173,7 @@ path: anObject
 !
 
 polygon 
-^ self tag: 'polygon'
+	^ self svgTag: 'polygon'
 !
 
 polygon: anObject
@@ -94,7 +181,7 @@ polygon: anObject
 !
 
 polyline 
-^ self tag: 'polyline'
+	^ self svgTag: 'polyline'
 !
 
 polyline: anObject
@@ -102,7 +189,7 @@ polyline: anObject
 !
 
 rect 
-^ self tag: 'rect'
+	^ self svgTag: 'rect'
 !
 
 rect: anObject
@@ -110,15 +197,19 @@ rect: anObject
 !
 
 svg
-	^ self tag: 'svg'
+	^ self svgTag: 'svg'
 !
 
 svg: anObject
 	^ self svg with: anObject
 !
 
+svgTag: aString
+	^ root addBrush: (self newSvgTag: aString)
+!
+
 text
-	^ self tag: 'text'
+	^ self svgTag: 'text'
 !
 
 text: anObject

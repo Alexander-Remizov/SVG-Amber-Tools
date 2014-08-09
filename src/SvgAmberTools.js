@@ -7,51 +7,39 @@ smalltalk.addClass('SVGWidget', globals.Widget, ['setAttribute'], 'SvgAmberTools
 smalltalk.addMethod(
 smalltalk.method({
 selector: "renderOn:",
-protocol: 'as yet unclassified',
+protocol: 'rendering',
 fn: function (html){
 var self=this;
+var svg,circle,process;
 return smalltalk.withContext(function($ctx1) { 
 var $1,$3,$4,$2;
 _st(html)._h1_("например");
+_st(_st(html)._br())._style_("");
 $1=_st(html)._svg();
-_st($1)._id_("svg");
-_st($1)._version_("");
-_st($1)._xmlns_("");
-_st($1)._xmlnsEv_("");
-_st($1)._xmlnsXlink_("");
-_st($1)._height_("200");
-$ctx1.sendIdx["height:"]=1;
-_st($1)._width_("300");
-$ctx1.sendIdx["width:"]=1;
+_st($1)._height_((500));
+_st($1)._width_((500));
 $2=_st($1)._with_((function(){
 return smalltalk.withContext(function($ctx2) {
-$3=_st(html)._rect();
-_st($3)._height_("100");
-_st($3)._width_("150");
-$4=_st($3)._style_("fill:#1a1a1a;fill-rule:evenodd;stroke:#ff0000;stroke-width:5;");
-return $4;
+$3=_st(html)._circle();
+_st($3)._fill_("yellow");
+_st($3)._strokeWidth_((4));
+_st($3)._stroke_("green");
+_st($3)._r_((40));
+$ctx2.sendIdx["r:"]=1;
+_st($3)._cy_((250));
+$4=_st($3)._cx_((250));
+circle=$4;
+return circle;
 }, function($ctx2) {$ctx2.fillBlock({},$ctx1,1)})}));
-self._setAttribute();
-return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html},globals.SVGWidget)})},
+svg=$2;
+_st((function(){
+return smalltalk.withContext(function($ctx2) {
+return _st(circle)._r_((250)._atRandom());
+}, function($ctx2) {$ctx2.fillBlock({},$ctx1,2)})}))._valueWithInterval_((1000));
+return self}, function($ctx1) {$ctx1.fill(self,"renderOn:",{html:html,svg:svg,circle:circle,process:process},globals.SVGWidget)})},
 args: ["html"],
-source: "renderOn: html\x0a\x0ahtml h1: 'например'.\x0a\x0ahtml svg id:'svg'; version:''; xmlns:''; xmlnsEv:''; xmlnsXlink:''; height: '200'; width: '300'; with: [\x0a\x09html rect height: '100'; width: '150'; style:'fill:#1a1a1a;fill-rule:evenodd;stroke:#ff0000;stroke-width:5;'\x0a].\x0aself setAttribute.\x0a\x22html button class: 'btn btn-default'; at: 'type' put: 'button';\x09\x0a\x09onClick: [self setAttribute.];  with: '!!!'\x22",
-messageSends: ["h1:", "id:", "svg", "version:", "xmlns:", "xmlnsEv:", "xmlnsXlink:", "height:", "width:", "with:", "rect", "style:", "setAttribute"],
-referencedClasses: []
-}),
-globals.SVGWidget);
-
-smalltalk.addMethod(
-smalltalk.method({
-selector: "setAttribute",
-protocol: 'as yet unclassified',
-fn: function (){
-var self=this;
-return smalltalk.withContext(function($ctx1) { 
-var testTest=document.getElementsByTagName('svg')[0].setAttribute('baseProfile', 'full');
-return self}, function($ctx1) {$ctx1.fill(self,"setAttribute",{},globals.SVGWidget)})},
-args: [],
-source: "setAttribute\x0a<var testTest=document.getElementsByTagName('svg')[0].setAttribute('baseProfile', 'full')>\x0a\x09",
-messageSends: [],
+source: "renderOn: html\x0a|svg circle process|\x0ahtml h1: 'например'.\x0ahtml br style: ''.\x0a\x0asvg := html svg\x0a\x09height: 500;\x0a\x09width: 500;\x0a\x09with: [ \x0a\x09\x09circle := html circle\x0a\x09\x09\x09fill: 'yellow';\x0a\x09\x09\x09strokeWidth: 4;\x0a\x09\x09\x09stroke: 'green';\x0a\x09\x09\x09r: 40;\x0a\x09\x09\x09cy: 250;\x0a\x09\x09\x09cx: 250].\x0a\x09[circle r: 250 atRandom] valueWithInterval: 1000.",
+messageSends: ["h1:", "style:", "br", "height:", "svg", "width:", "with:", "fill:", "circle", "strokeWidth:", "stroke:", "r:", "cy:", "cx:", "valueWithInterval:", "atRandom"],
 referencedClasses: []
 }),
 globals.SVGWidget);
@@ -79,6 +67,313 @@ referencedClasses: ["SVGWidget", "HTMLCanvas"]
 globals.SvgAmberTools);
 
 
+
+smalltalk.addClass('SvgTagBrush', globals.TagBrush, [], 'SvgAmberTools');
+smalltalk.addMethod(
+smalltalk.method({
+selector: "at:put:",
+protocol: 'attributes',
+fn: function (aString,aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self['@element'].setAttributeNS(null, aString, aValue); return aValue;
+return self}, function($ctx1) {$ctx1.fill(self,"at:put:",{aString:aString,aValue:aValue},globals.SvgTagBrush)})},
+args: ["aString", "aValue"],
+source: "at: aString put: aValue\x0a\x09<self['@element'].setAttributeNS(null, aString, aValue); return aValue>",
+messageSends: [],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "createElementFor:",
+protocol: 'private',
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+return document.createElementNS('http://www.w3.org/2000/svg', String(aString));
+return self}, function($ctx1) {$ctx1.fill(self,"createElementFor:",{aString:aString},globals.SvgTagBrush)})},
+args: ["aString"],
+source: "createElementFor: aString\x0a\x09<return document.createElementNS('http://www.w3.org/2000/svg', String(aString))>",
+messageSends: [],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cx",
+protocol: 'attributes',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._at_("cx"))._asNumber();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"cx",{},globals.SvgTagBrush)})},
+args: [],
+source: "cx\x0a\x09^ (self at: 'cx') asNumber",
+messageSends: ["asNumber", "at:"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cx:",
+protocol: 'attributes',
+fn: function (aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._at_put_("cx",_st(aValue)._asString());
+return self}, function($ctx1) {$ctx1.fill(self,"cx:",{aValue:aValue},globals.SvgTagBrush)})},
+args: ["aValue"],
+source: "cx: aValue\x0a\x09self at: 'cx' put: aValue asString.",
+messageSends: ["at:put:", "asString"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cy",
+protocol: 'attributes',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._at_("cy"))._asNumber();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"cy",{},globals.SvgTagBrush)})},
+args: [],
+source: "cy\x0a\x09^ (self at: 'cy') asNumber",
+messageSends: ["asNumber", "at:"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "cy:",
+protocol: 'attributes',
+fn: function (aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._at_put_("cy",_st(aValue)._asString());
+return self}, function($ctx1) {$ctx1.fill(self,"cy:",{aValue:aValue},globals.SvgTagBrush)})},
+args: ["aValue"],
+source: "cy: aValue\x0a\x09self at: 'cy' put: aValue asString.",
+messageSends: ["at:put:", "asString"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fill",
+protocol: 'attributes',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._at_("fill"))._asString();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"fill",{},globals.SvgTagBrush)})},
+args: [],
+source: "fill\x0a\x09^ (self at: 'fill') asString",
+messageSends: ["asString", "at:"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "fill:",
+protocol: 'attributes',
+fn: function (aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._at_put_("fill",_st(aValue)._asString());
+return self}, function($ctx1) {$ctx1.fill(self,"fill:",{aValue:aValue},globals.SvgTagBrush)})},
+args: ["aValue"],
+source: "fill: aValue\x0a\x09self at: 'fill' put: aValue asString.",
+messageSends: ["at:put:", "asString"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "height",
+protocol: 'attributes',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._at_("height"))._asNumber();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"height",{},globals.SvgTagBrush)})},
+args: [],
+source: "height\x0a\x09^ (self at: 'height') asNumber",
+messageSends: ["asNumber", "at:"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "height:",
+protocol: 'attributes',
+fn: function (aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._at_put_("height",_st(aValue)._asString());
+return self}, function($ctx1) {$ctx1.fill(self,"height:",{aValue:aValue},globals.SvgTagBrush)})},
+args: ["aValue"],
+source: "height: aValue\x0a\x09self at: 'height' put: aValue asString.",
+messageSends: ["at:put:", "asString"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "r",
+protocol: 'attributes',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._at_("r"))._asString();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"r",{},globals.SvgTagBrush)})},
+args: [],
+source: "r\x0a\x09^ (self at: 'r') asString",
+messageSends: ["asString", "at:"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "r:",
+protocol: 'attributes',
+fn: function (aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._at_put_("r",_st(aValue)._asString());
+return self}, function($ctx1) {$ctx1.fill(self,"r:",{aValue:aValue},globals.SvgTagBrush)})},
+args: ["aValue"],
+source: "r: aValue\x0a\x09self at: 'r' put: aValue asString.",
+messageSends: ["at:put:", "asString"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "stroke",
+protocol: 'attributes',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._at_("stroke"))._asString();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"stroke",{},globals.SvgTagBrush)})},
+args: [],
+source: "stroke\x0a\x09^ (self at: 'stroke') asString",
+messageSends: ["asString", "at:"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "stroke:",
+protocol: 'attributes',
+fn: function (aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._at_put_("stroke",_st(aValue)._asString());
+return self}, function($ctx1) {$ctx1.fill(self,"stroke:",{aValue:aValue},globals.SvgTagBrush)})},
+args: ["aValue"],
+source: "stroke: aValue\x0a\x09self at: 'stroke' put: aValue asString.",
+messageSends: ["at:put:", "asString"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "strokeWidth",
+protocol: 'attributes',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._at_("stroke-width"))._asNumber();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"strokeWidth",{},globals.SvgTagBrush)})},
+args: [],
+source: "strokeWidth\x0a\x09^ (self at: 'stroke-width') asNumber",
+messageSends: ["asNumber", "at:"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "strokeWidth:",
+protocol: 'attributes',
+fn: function (aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._at_put_("stroke-width",_st(aValue)._asString());
+return self}, function($ctx1) {$ctx1.fill(self,"strokeWidth:",{aValue:aValue},globals.SvgTagBrush)})},
+args: ["aValue"],
+source: "strokeWidth: aValue\x0a\x09self at: 'stroke-width' put: aValue asString.",
+messageSends: ["at:put:", "asString"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width",
+protocol: 'attributes',
+fn: function (){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self._at_("width"))._asNumber();
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"width",{},globals.SvgTagBrush)})},
+args: [],
+source: "width\x0a\x09^ (self at: 'width') asNumber",
+messageSends: ["asNumber", "at:"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+smalltalk.addMethod(
+smalltalk.method({
+selector: "width:",
+protocol: 'attributes',
+fn: function (aValue){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+self._at_put_("width",_st(aValue)._asString());
+return self}, function($ctx1) {$ctx1.fill(self,"width:",{aValue:aValue},globals.SvgTagBrush)})},
+args: ["aValue"],
+source: "width: aValue\x0a\x09self at: 'width' put: aValue asString.",
+messageSends: ["at:put:", "asString"],
+referencedClasses: []
+}),
+globals.SvgTagBrush);
+
+
 smalltalk.addMethod(
 smalltalk.method({
 selector: "circle",
@@ -87,12 +382,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("circle");
+$1=self._svgTag_("circle");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"circle",{},globals.HTMLCanvas)})},
 args: [],
-source: "circle\x0a\x09^ self tag: 'circle'",
-messageSends: ["tag:"],
+source: "circle\x0a\x09^ self svgTag: 'circle'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -123,12 +418,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("ellipse");
+$1=self._svgTag_("ellipse");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"ellipse",{},globals.HTMLCanvas)})},
 args: [],
-source: "ellipse\x0a\x09^ self tag: 'ellipse'",
-messageSends: ["tag:"],
+source: "ellipse\x0a\x09^ self svgTag: 'ellipse'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -159,12 +454,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("g");
+$1=self._svgTag_("g");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"g",{},globals.HTMLCanvas)})},
 args: [],
-source: "g\x0a\x09^ self tag: 'g'",
-messageSends: ["tag:"],
+source: "g\x0a\x09^ self svgTag: 'g'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -195,12 +490,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("image");
+$1=self._svgTag_("image");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"image",{},globals.HTMLCanvas)})},
 args: [],
-source: "image\x0a\x09^ self tag: 'image'",
-messageSends: ["tag:"],
+source: "image\x0a\x09^ self svgTag: 'image'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -231,12 +526,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("line");
+$1=self._svgTag_("line");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"line",{},globals.HTMLCanvas)})},
 args: [],
-source: "line\x0a\x09^ self tag: 'line'",
-messageSends: ["tag:"],
+source: "line\x0a\x09^ self svgTag: 'line'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -261,18 +556,37 @@ globals.HTMLCanvas);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "newSvgTag:",
+protocol: '*SvgAmberTools',
+fn: function (aString){
+var self=this;
+function $SvgTagBrush(){return globals.SvgTagBrush||(typeof SvgTagBrush=="undefined"?nil:SvgTagBrush)}
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st($SvgTagBrush())._fromString_canvas_(aString,self);
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"newSvgTag:",{aString:aString},globals.HTMLCanvas)})},
+args: ["aString"],
+source: "newSvgTag: aString\x0a\x09^ SvgTagBrush fromString: aString canvas: self",
+messageSends: ["fromString:canvas:"],
+referencedClasses: ["SvgTagBrush"]
+}),
+globals.HTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "path",
 protocol: '*SvgAmberTools',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("path");
+$1=self._svgTag_("path");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"path",{},globals.HTMLCanvas)})},
 args: [],
-source: "path\x0a\x09^ self tag: 'path'",
-messageSends: ["tag:"],
+source: "path\x0a\x09^ self svgTag: 'path'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -303,12 +617,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("polygon");
+$1=self._svgTag_("polygon");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"polygon",{},globals.HTMLCanvas)})},
 args: [],
-source: "polygon \x0a^ self tag: 'polygon'",
-messageSends: ["tag:"],
+source: "polygon \x0a\x09^ self svgTag: 'polygon'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -339,12 +653,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("polyline");
+$1=self._svgTag_("polyline");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"polyline",{},globals.HTMLCanvas)})},
 args: [],
-source: "polyline \x0a^ self tag: 'polyline'",
-messageSends: ["tag:"],
+source: "polyline \x0a\x09^ self svgTag: 'polyline'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -375,12 +689,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("rect");
+$1=self._svgTag_("rect");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"rect",{},globals.HTMLCanvas)})},
 args: [],
-source: "rect \x0a^ self tag: 'rect'",
-messageSends: ["tag:"],
+source: "rect \x0a\x09^ self svgTag: 'rect'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -411,12 +725,12 @@ fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("svg");
+$1=self._svgTag_("svg");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"svg",{},globals.HTMLCanvas)})},
 args: [],
-source: "svg\x0a\x09^ self tag: 'svg'",
-messageSends: ["tag:"],
+source: "svg\x0a\x09^ self svgTag: 'svg'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
@@ -441,18 +755,36 @@ globals.HTMLCanvas);
 
 smalltalk.addMethod(
 smalltalk.method({
+selector: "svgTag:",
+protocol: '*SvgAmberTools',
+fn: function (aString){
+var self=this;
+return smalltalk.withContext(function($ctx1) { 
+var $1;
+$1=_st(self["@root"])._addBrush_(self._newSvgTag_(aString));
+return $1;
+}, function($ctx1) {$ctx1.fill(self,"svgTag:",{aString:aString},globals.HTMLCanvas)})},
+args: ["aString"],
+source: "svgTag: aString\x0a\x09^ root addBrush: (self newSvgTag: aString)",
+messageSends: ["addBrush:", "newSvgTag:"],
+referencedClasses: []
+}),
+globals.HTMLCanvas);
+
+smalltalk.addMethod(
+smalltalk.method({
 selector: "text",
 protocol: '*SvgAmberTools',
 fn: function (){
 var self=this;
 return smalltalk.withContext(function($ctx1) { 
 var $1;
-$1=self._tag_("text");
+$1=self._svgTag_("text");
 return $1;
 }, function($ctx1) {$ctx1.fill(self,"text",{},globals.HTMLCanvas)})},
 args: [],
-source: "text\x0a\x09^ self tag: 'text'",
-messageSends: ["tag:"],
+source: "text\x0a\x09^ self svgTag: 'text'",
+messageSends: ["svgTag:"],
 referencedClasses: []
 }),
 globals.HTMLCanvas);
